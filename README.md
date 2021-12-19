@@ -1,8 +1,16 @@
+# Table of contents
+- [Práctica github actions](#práctica-github-actions)
+  - [Preparación del linter](#preparación-del-linter)
+  - [Preparación de cypress](#preparación-de-cypress)
+  - [Preparación de badges](#preparación-de-badges)
+  - [Deploy con vercel](#deploy-con-vercel)
+  - [Envio de emails](#envio-de-emails)
+
 # Práctica github actions
 
 [![Cypress.io](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)](https://www.cypress.io/)
 
-### Qué es github actions?
+## Introducción teórica
 GitHub Actions es una herramienta que permite reducir la cadena de acciones necesarias para la ejecución de código, mediante la creación de un workflow responsable del Pipeline. Siendo configurable para que GitHub reaccione ante determinados eventos de forma automática según nuestras preferencias.
 
 Por lo tanto, GitHub Actions le permite crear flujos de trabajo que se pueden usar para compilar, probar e implementar código. Además, brinda la posibilidad de crear flujos de integración y despliegue continuo dentro de nuestro repositorio.
@@ -33,8 +41,8 @@ Linter_job:
 * El segundo step se encarga de preparar el proyecto y iniciar el script lint verificando si el código de nuestra aplicación esta correctamente
 
 Para solucionar los errores automáticamente del lint hay que ejecutar el siguiente comando. (Si sigue dando error se tiene que solucionar manualmente)
-```console
-~/ghActions-Practica $ ./node_modules/.bin/next lint --fix
+```sh
+$ ./node_modules/.bin/next lint --fix
 ```
 
 
@@ -174,16 +182,16 @@ Deploy_job:
         vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
 ```
 
-Necesitaremos poner 3 tokens en los secrets, el `VERCEL_TOKEN` `VERCEL_PROJECT_ID` y `VERCEL_ORG_ID`
-El token `VERCEL_TOKEN` es un token que tendremos que generar en settings->tokens
-El token `VERCEL_ORG_ID` es nuestro user id lo podemos conseguir entrando a nuestro perfil
-El token `VERCEL_PROJECT_ID` está en settings de nuestro proyecto
-
-![alt text](https://github.com/iferrer20/ghActions-Practica/blob/main/readme/vercel_token.png?raw=true)
 
 * El primer step se encargará de obtener el código fuente de nuestro repositorio remoto
 * El segundo step se encargará del deploy nuestro proyecto en vercel, dentro de with ponemos todos los tokens mencionados
 
+Necesitaremos poner 3 tokens en los secrets, el `VERCEL_TOKEN` `VERCEL_PROJECT_ID` y `VERCEL_ORG_ID`
+El token `VERCEL_TOKEN` es un token que tendremos que generar en settings->tokens  
+El token `VERCEL_ORG_ID` es nuestro user id lo podemos conseguir entrando a nuestro perfil  
+El token `VERCEL_PROJECT_ID` está en settings de nuestro proyecto  
+
+![alt text](https://github.com/iferrer20/ghActions-Practica/blob/main/readme/vercel_token.png?raw=true)
 
 ## Envio de emails
 Fichero `.github/workflows/ghActions-Practica.yml`  
