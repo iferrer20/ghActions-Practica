@@ -15,7 +15,7 @@ Actions usa paquetes de código en contenedores Docker, que se ejecutan en servi
 
 ## Preparación del linter
 
-Fichero `.github/workflows/ghActions-Practica.yml`
+Fichero `.github/workflows/ghActions-Practica.yml`  
 Nuevo job
 ```yaml
 Linter_job:
@@ -42,7 +42,7 @@ Para solucionar los errores automáticamente del lint hay que ejecutar el siguie
 
 ## Preparación de cypress
 
-Fichero `.github/workflows/ghActions-Practica.yml`
+Fichero `.github/workflows/ghActions-Practica.yml`  
 Nuevo job
 ```yaml
 Cypress_job:
@@ -79,7 +79,7 @@ Cypress_job:
 * El ultimo step subirá el artefacto del fichero de la salida de cypress para obtenerlo en otro job.
 
 ## Preparación de badges
-Fichero `.github/workflows/ghActions-Practica.yml`
+Fichero `.github/workflows/ghActions-Practica.yml`  
 Nuevo job
 
 
