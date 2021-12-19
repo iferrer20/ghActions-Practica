@@ -82,4 +82,41 @@ Cypress_job:
 Fichero `.github/workflows/ghActions-Practica.yml`  
 Nuevo job
 
+```yaml
+ Add_badge_job:
+  name: Add badge job
+  runs-on: ubuntu-latest
+  needs: Cypress_job
+  if: ${{ always() }}
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v2
 
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: cypress-result
+
+    - name: Cypress output
+      id: cypress-output
+      run: echo "::set-output name=cypress_outcome::$(cat result.txt)"
+
+    - uses: ./.github/actions/badges/
+      with:
+        cypress_outcome: ${{ steps.cypress-output.outputs.cypress_outcome }}
+
+    - name: Commit
+      run: |
+        git config user.email "badgebot@github.com"
+        git config user.name "badgebot"
+        git add .
+        git commit --allow-empty -m "Badges"
+        git remote set-url origin https://iferrer20:${{ secrets.GITHUB_TOKEN }}@github.com/iferrer20/ghActions-Practica.git
+        git push
+```
+
+Este job se ejecutara aunque los jobs anteriores fallen. Contiene los siguientes steps
+* El primer step se encarga de descargar el codigo fuente.
+* EL segundo step se encarga de descargar el artefacto subido en el job anterior (results.txt)
+* El tercero se encarga de establecer como salida el artefacto results.txt
+* El cuarto 
