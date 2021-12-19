@@ -100,12 +100,10 @@ jobs:
       - name: Send email
         uses: ./.github/actions/email/
         with: 
-          text: |
-            Se ha realizado un push en la rama main que ha provocado la ejecución del<br>workflow nombre_repositorio_workflow con los siguientes resultados<br>Linter ${{ needs.Linter_job.result }}<br>Cypress ${{ needs.Cypress_job.result }}<br>Badges ${{ needs.Add_badge_job.result }}<br>${{ needs.Deploy_job.result }}
+          text: 'Se ha realizado un push en la rama main que ha provocado la ejecución del<br>workflow nombre_repositorio_workflow con los siguientes resultados<br>Linter ${{ needs.Linter_job.result }}<br>Cypress ${{ needs.Cypress_job.result }}<br>Badges ${{ needs.Add_badge_job.result }}<br>${{ needs.Deploy_job.result }}'
           from_email: "iferreriestacio@gmail.com"
           to_email: "iferreriestacio@gmail.com"
           name: ${{ github.event.pusher.name }}
-          subject: | 
-            Re: ${{ github.event.head_commit.message }} Resultado del workflow ejecutado
+          subject: Re: '${{ github.event.head_commit.message }} Resultado del workflow ejecutado'
           mailjet_api_key: ${{ secrets.MAILJET_API_KEY }}
           mailjet_secret_key: ${{ secrets.MAILJET_SECRET_KEY }}

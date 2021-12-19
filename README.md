@@ -16,6 +16,7 @@ Actions usa paquetes de código en contenedores Docker, que se ejecutan en servi
 ## Preparación del linter
 
 Fichero `.github/workflows/ghActions-Practica.yml`
+Nuevo job
 ```yaml
 Linter_job:
   name: Linter job
@@ -42,41 +43,43 @@ Para solucionar los errores automáticamente del lint hay que ejecutar el siguie
 ## Preparación de cypress
 
 Fichero `.github/workflows/ghActions-Practica.yml`
-
+Nuevo job
 ```yaml
 Cypress_job:
-    name: Cypress job
-    runs-on: ubuntu-latest
-    needs: Linter_job
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  name: Cypress job
+  runs-on: ubuntu-latest
+  needs: Linter_job
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v2
 
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
-        id: cypress
-        continue-on-error: true
-        with:
-          config-file: cypress.json
-          build: npm run build
-          start: npm start
-      
-      - name: Outcome
-        run: |
-            echo ${{ steps.cypress.outcome }} > result.txt
+    - name: Cypress run
+      uses: cypress-io/github-action@v2
+      id: cypress
+      continue-on-error: true
+      with:
+        config-file: cypress.json
+        build: npm run build
+        start: npm start
+    
+    - name: Outcome
+      run: |
+          echo ${{ steps.cypress.outcome }} > result.txt
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: cypress-result
-          path: result.txt
-
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: cypress-result
+        path: result.txt
 ```
 
 * El primer step se encarga de descargar el codigo fuente.
 * El segundo se encarga de instalar nuestro proyecto y iniciarlo para luego ejecutar los tests de cypress, continue-on-error hará que continue los steps aunque de error, le ponemos id para obtener el resultado en el siguiente step.
 * El tercero se encarga de obtener la salida del job anterior y guardarlo en result.txt.
-* El ultimo step subirá el artefacto del fichero de la salida de cypress.
+* El ultimo step subirá el artefacto del fichero de la salida de cypress para obtenerlo en otro job.
+
+## Preparación de badges
+Fichero `.github/workflows/ghActions-Practica.yml`
+Nuevo job
 
 
-## 
