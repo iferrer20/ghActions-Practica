@@ -1,0 +1,36 @@
+name: 'Email'
+description: 'Send email to the pusher'
+inputs:
+  text:
+    description: 'Email text message'
+    required: true
+
+  from_email:
+    description: 'From email'
+    required: true
+
+  to_email:
+    description: 'Email destination target'
+    required: true
+
+  name:
+    description: 'Name'
+    required: true
+
+  subject:
+    description: 'Subject'
+    required: true
+
+  mailjet_api_key:
+    description: 'Api key'
+    required: true
+
+  mailjet_secret_key:
+    description: 'Secret key'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - run: MAILJET_API_KEY=${{ inputs.mailjet_api_key }} MAILJET_SECRET_KEY=${{ input.mailjet_secret_key }} TEXT=${{ inputs.text }} FROM_EMAIL=${{ input.from_email }} TO_EMAIL=${{ inputs.to_email }} NAME=${{ inputs.name }} SUBJECT=${{ inputs.subject }} bash ${{ github.action_path }}/email.sh 
+      shell: bash

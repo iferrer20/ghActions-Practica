@@ -88,4 +88,23 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
 
 
-  
+  Notification_job:
+    name: Notification job
+    runs-on: ubuntu-latest
+    needs: [Deploy_job, Cypress_job, Linter_job, Add_badge_job]
+    if: ${{ always() }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Send email
+        uses: ./.github/actions/email/
+        with: 
+          text: Linter: ${{ needs.Linter_job.result }}<br>Cypress: ${{ needs.Cypress_job.result }}<br>Badges: ${{ needs.Add_badge_job.result }}<br>${{ needs.Deploy_job.result }}
+
+          from_email: ${{ github.event.pusher.email }}
+          to_email: ${{ github.event.pusher.email }}
+          name: ${{ github.event.pusher.name }}
+          subject: Re: ${{ github.event.head_commit.message }}
+          mailjet_api_key: ${{ secrets.MAILJET_API_KEY }}
+          mailjet_secret_key: ${{ secrets.MAILJET_SECRET_KEY }}
