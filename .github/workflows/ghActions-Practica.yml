@@ -68,5 +68,5 @@ jobs:
           git config user.name "badgebot"
           git add .
           git commit --allow-empty -m "Badges"
-          git remote set-url origin https://iferrer20:${{ secrets.TOKEN }}@github.com/iferrer20/github-actions.git
+          git remote set-url origin https://iferrer20:${{ secrets.TOKEN }}@github.com/iferrer20/ghActions-Practica.git
           git push
