@@ -108,6 +108,7 @@ jobs:
           from_email: ${{ github.event.pusher.email }}
           to_email: ${{ github.event.pusher.email }}
           name: ${{ github.event.pusher.name }}
-          subject: | Re: ${{ github.event.head_commit.message }} Resultado del workflow ejecutado
+          subject: | 
+            Re: ${{ github.event.head_commit.message }} Resultado del workflow ejecutado
           mailjet_api_key: ${{ secrets.MAILJET_API_KEY }}
           mailjet_secret_key: ${{ secrets.MAILJET_SECRET_KEY }}
