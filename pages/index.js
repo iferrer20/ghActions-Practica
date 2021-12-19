@@ -12,7 +12,7 @@ export default function Home() {
       <main>
         <h1 className="title">Read this super page!</h1>
         <p className="description">
-          Get started by editing <code>pages/index.js</code>
+          Get started by editing <code>pages/index.js</code> <b>Author:</b> iferrer20
         </p>
 
         <div className="grid">

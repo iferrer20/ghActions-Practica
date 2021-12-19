@@ -115,8 +115,45 @@ Nuevo job
         git push
 ```
 
-Este job se ejecutara aunque los jobs anteriores fallen. Contiene los siguientes steps
+Este job se ejecutara aunque los jobs anteriores fallen. Contiene los siguientes steps.
 * El primer step se encarga de descargar el codigo fuente.
-* EL segundo step se encarga de descargar el artefacto subido en el job anterior (results.txt)
-* El tercero se encarga de establecer como salida el artefacto results.txt
-* El cuarto 
+* EL segundo step se encarga de descargar el artefacto subido en el job anterior (results.txt).
+* El tercero se encarga de establecer como salida el artefacto results.txt.
+* El cuarto se encarga de ejecutar nuestro action badge, tiene un solo argumento que indica el status de cypress (si ha fallado o no).
+* El ultimo step se encargará de subir los cambios hechos por nuestro badge al repositorio remoto.
+
+### Action badges
+Fichero `./.github/actions/badges/action.yml`
+```yaml
+name: 'Badges'
+description: 'Set badges in readme file'
+inputs:
+  cypress_outcome:
+    description: 'Cypress outcome'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - run: python ${{ github.action_path }}/badges.py ${{ inputs.cypress_outcome }}
+      shell: bash
+```
+
+Este action tomará como input cypress_outcome que indicará si cypress ha fallado o no, y será obligatorio.  
+El action corre sobre composite que nos permite añadir steps y ejecutar python, ponemos shell bash para poder ejecutar el comando python sobre el script `badges.py` y le añadimos como argumento el cypress outcome
+
+Fichero `./.github/actions/badges/badges.py`
+```python
+import sys
+import re
+
+content = open("README.md").read()
+f = open("README.md", "w")
+f.write(
+    re.sub('tested%20with-Cypress-04C38E|test-failure-red', 'tested%20with-Cypress-04C38E' if sys.argv[1] == "success" else 'test-failure-red', content)
+)
+f.close()
+```
+
+Dependiendo de si el primer argumento es success, el script substituirá el uri que indica el tipo de badge, y lo guardará al README.md
+
+
