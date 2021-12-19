@@ -2,7 +2,6 @@
 
 [![Cypress.io](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)](https://www.cypress.io/)
 
-
 ### Qué es github actions?
 GitHub Actions es una herramienta que permite reducir la cadena de acciones necesarias para la ejecución de código, mediante la creación de un workflow responsable del Pipeline. Siendo configurable para que GitHub reaccione ante determinados eventos de forma automática según nuestras preferencias.
 
@@ -14,7 +13,6 @@ Actions usa paquetes de código en contenedores Docker, que se ejecutan en servi
 
 
 ## Preparación del linter
-
 Fichero `.github/workflows/ghActions-Practica.yml`  
 Nuevo job
 ```yaml
@@ -41,7 +39,6 @@ Para solucionar los errores automáticamente del lint hay que ejecutar el siguie
 
 
 ## Preparación de cypress
-
 Fichero `.github/workflows/ghActions-Practica.yml`  
 Nuevo job
 ```yaml
@@ -156,4 +153,141 @@ f.close()
 
 Dependiendo de si el primer argumento es success, el script substituirá el uri que indica el tipo de badge, y lo guardará al README.md
 
+## Deploy con vercel
+Fichero `.github/workflows/ghActions-Practica.yml`  
+Nuevo job
+```yaml
+Deploy_job:
+  name: Deploy job
+  runs-on: ubuntu-latest
+  needs: Cypress_job
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v2
 
+    - name: Vercel deployment
+      uses: amondnet/vercel-action@v20
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+```
+
+Necesitaremos poner 3 tokens en los secrets, el `VERCEL_TOKEN` `VERCEL_PROJECT_ID` y `VERCEL_ORG_ID`
+El token `VERCEL_TOKEN` es un token que tendremos que generar en settings->tokens
+El token `VERCEL_ORG_ID` es nuestro user id lo podemos conseguir entrando a nuestro perfil
+El token `VERCEL_PROJECT_ID` está en settings de nuestro proyecto
+
+![alt text](https://github.com/iferrer20/ghActions-Practica/blob/main/readme/vercel_token.png?raw=true)
+
+* El primer step se encargará de obtener el código fuente de nuestro repositorio remoto
+* El segundo step se encargará del deploy nuestro proyecto en vercel, dentro de with ponemos todos los tokens mencionados
+
+
+## Envio de emails
+Fichero `.github/workflows/ghActions-Practica.yml`  
+Nuevo job
+```yaml
+Notification_job:
+  name: Notification job
+  runs-on: ubuntu-latest
+  needs: [Deploy_job, Cypress_job, Linter_job, Add_badge_job]
+  if: ${{ always() }}
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Send email
+      uses: ./.github/actions/email/
+      with:
+        text: 'Se ha realizado un push en la rama main que ha provocado la ejecución del workflow nombre_repositorio_workflow con los siguientes resultados<br><br>Linter_job: ${{ needs.Linter_job.result }}<br>Cypress_job: ${{ needs.Cypress_job.result }}<br>Badges_job: ${{ needs.Add_badge_job.result }}<br>Deploy_job: ${{ needs.Deploy_job.result }}'
+        from_email: "iferreriestacio@gmail.com"
+        to_email: "iferreriestacio@gmail.com"
+        name: ${{ github.event.pusher.name }}
+        subject: 'Re: ${{ github.event.head_commit.message }} Resultado del workflow ejecutado'
+        mailjet_api_key: ${{ secrets.MAILJET_API_KEY }}
+        mailjet_secret_key: ${{ secrets.MAILJET_SECRET_KEY }}
+```
+Este job se ejecutará siempre no importando el qué, y depende de una lista de jobs para poder obtener sus resultados 
+* El segundo step se encargará de ejecutar un action personalizado que enviará un email a través de mailjet, tenemos que establecer las claves de mailjet en los secrets y dentro de with indicamos los parametros para enviar el correo.
+
+### Action email
+
+Este fichero describe los parametros y el comando que ejecutará el action email
+Fichero `.github/actions/email/action.yml`
+```yaml
+name: 'Email'
+description: 'Send email to the pusher'
+inputs:
+  text:
+    description: 'Email text message'
+    required: true
+
+  from_email:
+    description: 'From email'
+    required: true
+
+  to_email:
+    description: 'Email destination target'
+    required: true
+
+  name:
+    description: 'Name'
+    required: true
+
+  subject:
+    description: 'Subject'
+    required: true
+
+  mailjet_api_key:
+    description: 'Api key'
+    required: true
+
+  mailjet_secret_key:
+    description: 'Secret key'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - run: MAILJET_API_KEY="${{ inputs.mailjet_api_key }}" MAILJET_SECRET_KEY="${{ inputs.mailjet_secret_key }}" TEXT="${{ inputs.text }}" FROM_EMAIL="${{ inputs.from_email }}" TO_EMAIL="${{ inputs.to_email }}" NAME="${{ inputs.name }}" SUBJECT="${{ inputs.subject }}" bash ${{ github.action_path }}/email.sh 
+      shell: bash
+```
+
+Ejecutará el script email.sh definiendo todas las variables de input a variables de entorno 
+El script esta hecho con bash, simplemente hace un POST con el comando curl, pasando todas las variables de entorno al json
+
+```bash
+#!/bin/bash
+
+curl -s \
+-X POST \
+--user "${MAILJET_API_KEY}:${MAILJET_SECRET_KEY}" \
+https://api.mailjet.com/v3.1/send \
+-H 'Content-Type: application/json' \
+-d "{
+  \"Messages\":[
+    {
+      \"From\": {
+        \"Email\": \"${FROM_EMAIL}\",
+        \"Name\": \"${NAME}\"
+      },
+      \"To\": [
+        {
+          \"Email\": \"${TO_EMAIL}\",
+          \"Name\": \"${NAME}\"
+        }
+      ],
+      \"Subject\": \"${SUBJECT}\",
+      \"TextPart\": \"${TEXT}\",
+      \"HTMLPart\": \"${TEXT}\",
+      \"CustomID\": \"AppGettingStartedTest\"
+    }
+  ]
+}"
+```
+
+Cuando se ejecute el action, se enviará el siguiente mensaje al correo electrónico
+
+![alt text](https://github.com/iferrer20/ghActions-Practica/blob/main/readme/email_message.png?raw=true)
