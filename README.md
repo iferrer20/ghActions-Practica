@@ -15,4 +15,26 @@ Actions usa paquetes de código en contenedores Docker, que se ejecutan en servi
 
 ## Preparación del linter
 
+```yaml
+Linter_job:
+  name: Linter job
+  runs-on: ubuntu-latest
+
+  steps:
+    - name: Check out Git repository
+      uses: actions/checkout@v2
+
+    # Install your linters here
+    - name: Run linters
+      run: npm install && npm run lint
+```
+
+* El primer step se encarga de descargar el codigo fuente
+* El segundo step se encargará de preparar el proyecto y iniciar el script lint verificando si el código de nuestra aplicación esta correctamente
+
+Para solucionar los errores automáticamente del lint hay que ejecutar el siguiente comando. (Si sigue dando error se tiene que solucionar manualmente)
+```console
+~/ghActions-Practica $ ./node_modules/.bin/next lint --fix
+```
+
 
