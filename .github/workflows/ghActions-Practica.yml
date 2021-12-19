@@ -1,0 +1,72 @@
+name: Lint
+on: [push]
+jobs:
+  Linter_job:
+    name: Linter job
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      # Install your linters here
+      - name: Run linters
+        run: npm install && npm run lint
+
+  Cypress_job:
+    name: Cypress job
+    runs-on: ubuntu-latest
+    needs: Linter_job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        id: cypress
+        continue-on-error: true
+        with:
+          config-file: cypress.json
+          build: npm run build
+          start: npm start
+      
+      - name: Outcome
+        run: |
+            echo ${{ steps.cypress.outcome }} > result.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-result
+          path: result.txt
+
+  Add_badge_job:
+    name: Add badge job
+    runs-on: ubuntu-latest
+    needs: Cypress_job
+    if: ${{ always() }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-result
+
+      - name: Cypress output
+        id: cypress-output
+        run: echo "::set-output name=cypress_outcome::$(cat result.txt)"
+
+      - uses: ./.github/actions/badges/
+        with:
+          cypress_outcome: ${{ steps.cypress-output.outputs.cypress_outcome }}
+
+      - name: Commit
+        run: |
+          git config user.email "badgebot@github.com"
+          git config user.name "badgebot"
+          git add .
+          git commit --allow-empty -m "Badges"
+          git remote set-url origin https://iferrer20:${{ secrets.TOKEN }}@github.com/iferrer20/github-actions.git
+          git push

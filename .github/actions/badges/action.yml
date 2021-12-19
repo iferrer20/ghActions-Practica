@@ -1,0 +1,11 @@
+name: 'Badges'
+description: 'Set badges in readme file'
+inputs:
+  cypress_outcome:
+    description: 'Cypress outcome'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - run: ${{ github.action_path }}/badges.py ${{ inputs.cypress_outcome }}
+      shell: python
