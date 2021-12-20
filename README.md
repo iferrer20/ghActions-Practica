@@ -42,7 +42,7 @@ Linter_job:
 
 Para solucionar los errores automáticamente del lint hay que ejecutar el siguiente comando. (Si sigue dando error se tiene que solucionar manualmente)
 ```sh
-$ ./node_modules/.bin/next lint --fix
+$ npx next lint --fix
 ```
 
 

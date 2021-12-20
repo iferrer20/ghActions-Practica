@@ -1,12 +1,17 @@
 {
   "private": true,
   "scripts": {
+    "prepare": "husky install",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "export": "next export",
-    "lint": "next lint",
+    "lint": "next lint --no-cache",
+    "lint:fix": "npm run lint -- --fix",
     "cypress": "cypress open"
+  },
+  "engines": {
+    "node": ">=16 <18"
   },
   "dependencies": {
     "next": "latest",
@@ -16,6 +21,9 @@
   "devDependencies": {
     "cypress": "^9.1.1",
     "eslint": "^8.5.0",
-    "eslint-config-next": "12.0.7"
+    "eslint-config-next": "12.0.7",
+    "eslint-config-prettier": "^8.3.0",
+    "husky": "^7.0.4",
+    "prettier": "^2.5.1"
   }
 }

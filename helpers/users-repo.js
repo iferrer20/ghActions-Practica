@@ -24,7 +24,7 @@ function create({ name, lastName, email }) {
   console.log(user);
   // validate
   if (users.find((x) => x.email === user.email))
-    throw `Ya existe un usuario con el email ${user.email}`;
+    {throw `Ya existe un usuario con el email ${user.email}`;}
 
   // generate new user id
   user.id = users.length ? Math.max(...users.map((x) => x.id)) + 1 : 1;
@@ -43,7 +43,7 @@ function update(id, { name, lastName, email }) {
     params.email !== user.email &&
     users.find((x) => x.email === params.email)
   )
-    throw `Ya existe un usuario con el email ${user.email}`;
+    {throw `Ya existe un usuario con el email ${user.email}`;}
 
   // update and save
   Object.assign(user, params);
