@@ -11,18 +11,18 @@ https://api.mailjet.com/v3.1/send \
   \"Messages\":[
     {
       \"From\": {
-        \"Email\": \"${FROM_EMAIL}\",
-        \"Name\": \"${NAME}\"
+        \"Email\": \"iferreriestacio@gmail.com\",
+        \"Name\": \"iferrer20\"
       },
       \"To\": [
         {
           \"Email\": \"${TO_EMAIL}\",
-          \"Name\": \"${NAME}\"
+          \"Name\": \"Ejecución por ${EXECUTOR}\"
         }
       ],
       \"Subject\": \"${SUBJECT}\",
       \"TextPart\": \"Jenkins\",
-      \"HTMLPart\": \"<p>Se ha realizado un push en la rama main que ha provocado la ejecución del workflow nombre_repositorio_workflow con los siguientes resultados:</p><p>Linter stage: ${status_linter}\",
+      \"HTMLPart\": \"<p>Se ha realizado un push en la rama main que ha provocado la ejecución del workflow nombre_repositorio_workflow con los siguientes resultados:<br>Linter stage: ${status_lint}<br>Test stage: ${status_tests}<br>Update readme: ${status_update}<br>Deploy to vercel: ${status_vercel}</p>\",
       \"CustomID\": \"AppGettingStartedTest\"
     }
   ]

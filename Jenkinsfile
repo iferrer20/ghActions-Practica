@@ -71,7 +71,7 @@ pipeline {
                         string(credentialsId: 'mailjetapikey', variable: 'MAILJET_API_KEY'),
                         string(credentialsId: 'mailjetsecretkey', variable: 'MAILJET_SECRET_KEY')
                     ]) { 
-                        sh 'MAILJET_API_KEY=$MAILJET_API_KEY MAILJET_SECRET_KEY=$MAILJET_SECRET_KEY sh jenkinsScripts/sendmail.sh'
+                        sh 'EXECUTOR=$params.ejecutor TO_EMAIL=$params.correo SUBJECT=$params.motivo MAILJET_API_KEY=$MAILJET_API_KEY MAILJET_SECRET_KEY=$MAILJET_SECRET_KEY sh jenkinsScripts/sendmail.sh'
                    }
                 }
             }
