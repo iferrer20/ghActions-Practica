@@ -3,5 +3,5 @@
 git add .
 git config --global user.name "iferrer20"
 git config --global user.email "iferrer20@users.noreply.github.com"
-git commit -m "Jenkins update readme" --alow-empty
+git commit -m "Jenkins update readme" --allow-empty
 git push origin HEAD:jenkins
