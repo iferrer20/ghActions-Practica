@@ -25,18 +25,16 @@ pipeline {
         }
         stage('Update_Readme') {
             steps {
-                script {
-                    withCredentials([usernameColonPassword(credentialsId: '79f36614-7aa8-4403-a7a6-cccd99088b2f', variable: 'USERPASS')]) {
-                        sh(script: "jenkinsScripts/readme.sh ${env.status_tests} ${USERPASS}")
-                    }
-
-                }
-                
+                sh "jenkinsScripts/readme.sh ${env.status_tests}"
             }
         }
         stage('Push_stages') {
             steps {
-                sh "jenkinsScripts/push.sh ${ejecutor} ${motivo}"
+                script {
+                    withCredentials([usernameColonPassword(credentialsId: '79f36614-7aa8-4403-a7a6-cccd99088b2f', variable: 'USERPASS')]) {
+                        sh(script: "jenkinsScripts/push.sh ${ejecutor} ${motivo} ${USERPASS}")
+                    }
+                }
             }
         }
         stage('Deploy_to_Vercel') {
