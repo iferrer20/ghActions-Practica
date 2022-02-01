@@ -39,14 +39,13 @@ pipeline {
         }
         stage('Deploy_to_Vercel') {
             steps {
-                sh "npm install vercel -g"
                 script {
                     withCredentials([
                         string(credentialsId: 'mytoken', variable: 'TOKEN'),
                         string(credentialsId: 'prjid', variable: 'PROJECT_ID'),
                         string(credentialsId: 'orgid', variable: 'ORG_ID')
                     ]) { 
-                        sh("VERCEL_ORG_ID=$ORG_ID VERCEL_PROJECT_ID=$PROJECT_ID vercel --prod --scope Ivan Ferrer Alcaraz --token=$TOKEN")
+                        sh("VERCEL_ORG_ID=$ORG_ID VERCEL_PROJECT_ID=$PROJECT_ID vercel --prod --scope Ivan Ferrer --token=$TOKEN")
                    }
                 }
             }
