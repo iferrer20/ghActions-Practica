@@ -32,7 +32,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernameColonPassword(credentialsId: '79f36614-7aa8-4403-a7a6-cccd99088b2f', variable: 'USERPASS')]) {
-                        sh(script: "jenkinsScripts/push.sh ${ejecutor} ${motivo} ${USERPASS}")
+                        sh(script: 'jenkinsScripts/push.sh $ejecutor $motivo $USERPASS')
                     }
                 }
             }
