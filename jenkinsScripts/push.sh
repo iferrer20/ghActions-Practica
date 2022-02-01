@@ -1,7 +1,6 @@
 #!/bin/bash
 
-echo AAAAAAAAAAA${TOKEN}
-git remote set-url origin https://iferrer20:${TOKEN}@github.com/iferrer20/ghActions-Practica
+git remote set-url origin https://${1}@github.com/iferrer20/ghActions-Practica
 git add .
 git config --global user.name "iferrer20"
 git config --global user.email "iferrer20@users.noreply.github.com"
