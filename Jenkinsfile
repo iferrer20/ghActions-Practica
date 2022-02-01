@@ -12,6 +12,7 @@ pipeline {
         stage('Install') {
             steps {
                 sh 'npm install'
+                sh 'apt-get install xvfb'
             }
         }
         stage('Linter') {
