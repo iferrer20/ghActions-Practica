@@ -31,8 +31,8 @@ pipeline {
         stage('Push_stages') {
             steps {
                 script {
-                    withCredentials([usernameColonPassword(credentialsId: '79f36614-7aa8-4403-a7a6-cccd99088b2f', variable: 'USERPASS')]) {
-                        sh(script: 'TOKEN=${USERPASS} sh jenkinsScripts/push.sh')
+                    withCredentials([usernameColonPassword(credentialsId: '79f36614-7aa8-4403-a7a6-cccd99088b2f', usernameVariable: 'username', passwordVariable: 'TOKEN')]) {
+                        sh(script: 'TOKEN=$TOKEN sh jenkinsScripts/push.sh')
                     }
                 }
             }
