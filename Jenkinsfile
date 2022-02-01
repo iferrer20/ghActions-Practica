@@ -4,9 +4,9 @@ pipeline {
         pollSCM('3 * * * *')
     }
     parameters {
-        text(name: 'ejecutor', description: 'Ejecutor')
-        text(name: 'motivo', description: 'Motivo')
-        text(name: 'correo', description: 'Correo notificación')
+        string(name: 'ejecutor', description: 'Ejecutor')
+        string(name: 'motivo', description: 'Motivo')
+        string(name: 'correo', description: 'Correo notificación')
     }
     stages {
         stage('Install') {
