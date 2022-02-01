@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'npm run dev'
+                sh 'npm run dev &'
                 script {
                     env.status_tests = sh(script: "npm run cypress", returnStatus: true)
                 }
