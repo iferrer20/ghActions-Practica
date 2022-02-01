@@ -45,7 +45,7 @@ pipeline {
                         string(credentialsId: 'prjid', variable: 'PROJECT_ID'),
                         string(credentialsId: 'orgid', variable: 'ORG_ID')
                     ]) { 
-                        sh 'VERCEL_ORG_ID=$ORG_ID VERCEL_PROJECT_ID=$PROJECT_ID vercel --prod --scope Ivan Ferrer --token=$TOKEN'
+                        sh 'VERCEL_ORG_ID=$ORG_ID VERCEL_PROJECT_ID=$PROJECT_ID vercel --prod --scope iferrer20 --token=$TOKEN'
                    }
                 }
             }
