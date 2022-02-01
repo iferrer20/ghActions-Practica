@@ -12,20 +12,23 @@ pipeline {
         stage('Linter') {
             steps {
                 script {
-                    env.status_lint = sh(script: "npm run lint", returnStatus: true)
+                    env.status_lint = sh("npm run lint", returnStatus: true)
                 }
             }
         }
         stage('Test') {
             steps {
                 script {
-                    env.status_tests = sh(script: "npm run cypress", returnStatus: true)
+                    env.status_tests = sh("npm run cypress", returnStatus: true)
                 }
             }
         }
         stage('Update_Readme') {
             steps {
-                sh "jenkinsScripts/readme.sh ${env.status_tests}"
+                script {
+                    env.status_update = sh("jenkinsScripts/readme.sh ${env.status_tests}", returnStatus: true)
+                }
+
             }
         }
         stage('Push_stages') {
@@ -45,7 +48,20 @@ pipeline {
                         string(credentialsId: 'prjid', variable: 'PROJECT_ID'),
                         string(credentialsId: 'orgid', variable: 'ORG_ID')
                     ]) { 
-                        sh 'VERCEL_ORG_ID=$ORG_ID VERCEL_PROJECT_ID=$PROJECT_ID vercel --prod --scope iferrer20 --token=$TOKEN'
+                        env.status_vercel = sh('VERCEL_ORG_ID=$ORG_ID VERCEL_PROJECT_ID=$PROJECT_ID vercel --prod --scope iferrer20 --token=$TOKEN', returnStatus: true)
+                   }
+                }
+            }
+        }
+
+        stage('Notificacion') {
+            steps {
+                script {
+                    withCredentials([
+                        string(credentialsId: 'mailjetapikey', variable: 'MAILJET_API_KEY'),
+                        string(credentialsId: 'mailjetsecretkey', variable: 'MAILJET_SECRET_KEY')
+                    ]) { 
+                        sh 'MAILJET_API_KEY=$MAILJET_API_KEY MAILJET_SECRET_KEY=$MAILJET_SECRET_KEY sh jenkinsScripts/sendmail.sh'
                    }
                 }
             }
