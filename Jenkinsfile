@@ -1,7 +1,7 @@
 pipeline {
     agent any
     triggers {
-        pollSCM('3 * * * *')
+        pollSCM('1 */3 * * *')
     }
     parameters {
         string(name: 'ejecutor', description: 'Ejecutor')

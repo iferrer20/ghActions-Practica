@@ -1,7 +1,5 @@
 #!/bin/bash
 
-env
-
 curl -s \
 -X POST \
 --user "${MAILJET_API_KEY}:${MAILJET_SECRET_KEY}" \
