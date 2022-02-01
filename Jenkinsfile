@@ -25,7 +25,9 @@ pipeline {
         }
         stage('Update_Readme') {
             steps {
-                sh "jenkinsScripts/readme.sh ${env.status_tests}"
+                withCredentials([usernameColonPassword(credentialsId: '79f36614-7aa8-4403-a7a6-cccd99088b2f', variable: 'USERPASS')]) {
+                    sh "jenkinsScripts/readme.sh ${env.status_tests} ${USERPASS}"
+                }
             }
         }
         stage('Push_stages') {
