@@ -1,10 +1,14 @@
 # Table of contents
-- [Práctica github actions](#práctica-github-actions)
-  - [Preparación del linter](#preparación-del-linter)
-  - [Preparación de cypress](#preparación-de-cypress)
-  - [Preparación de badges](#preparación-de-badges)
-  - [Deploy con vercel](#deploy-con-vercel)
-  - [Envio de emails](#envio-de-emails)
+- [Práctica github actions](#pr-ctica-github-actions)
+  * [Introducción teórica](#introducci-n-te-rica)
+  * [Params (0,5)](#params--0-5-)
+  * [PollSCM (0,2)](#pollscm--0-2-)
+  * [Stage linter (1,0)](#stage-linter--1-0-)
+  * [Stage Test (1,0)](#stage-test--1-0-)
+  * [Stage Update readme (1,0)](#stage-update-readme--1-0-)
+  * [Stage Push_Changes (1,0)](#stage-push-changes--1-0-)
+  * [Stage deploy_to_vercel (1,5)](#stage-deploy-to-vercel--1-5-)
+  * [Stage notification (1,0)](#stage-notification--1-0-)
 
 # Práctica github actions
 
@@ -119,7 +123,7 @@ stage('Push_stages') {
 }
 ```
 
-El script `push.sh` se encargará de crear el comit y subir los cambios, el parametro ${1} es el que contiene las credenciales de git, con un get remote set-url establezco las credenciales. Cuando hago commit pongo allow-empty para que permita un comit vacio (aunque no haya ningun cambio) y luego lo subo a la rama jenkins
+El script `push.sh` se encargará de crear el commit y subir los cambios, el parametro ${1} es el que contiene las credenciales de git, con un git remote set-url establezco las credenciales. Cuando hago commit pongo allow-empty para que permita un comit vacio (aunque no haya ningun cambio) y luego lo subo a la rama jenkins
 
 ```bash
 #!/bin/bash
@@ -158,10 +162,10 @@ stage('Deploy_to_Vercel') {
 ```
 
 Para este stage se necesita instalar vercel en la máquina con `npm install -g vercel`  
-Necesitaremos poner 3 tokens en las credenciales, el `TOKEN` `PROJECT_ID` y `ORG_ID`  
-El token mytoken es un token que tendremos que generar en settings->tokens  
-El token prj es nuestro user id lo podemos conseguir entrando a nuestro perfil  
-El token orgid está en settings de nuestro proyecto  
+Necesitaremos poner 3 tokens en las credenciales, el `token` `prjid` y `orgid`  
+El token token es un token que tendremos que generar en settings->tokens  
+El token prjid es nuestro user id lo podemos conseguir entrando a nuestro perfil  
+El token orgid está en settings de nuestro proyecto de vercel
 Como ultimo paso necesitaremos establecer esos tokens en el global credentials de Jenkins
 
 ![vercel tokens](https://raw.githubusercontent.com/iferrer20/ghActions-Practica/jenkins/readme_img/credentials.png)
