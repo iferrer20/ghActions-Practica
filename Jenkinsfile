@@ -53,7 +53,12 @@ pipeline {
                         string(credentialsId: 'prjid', variable: 'PROJECT_ID'),
                         string(credentialsId: 'orgid', variable: 'ORG_ID')
                     ]) { 
-                        env.status_vercel = sh(script: 'VERCEL_ORG_ID=$ORG_ID VERCEL_PROJECT_ID=$PROJECT_ID vercel --prod --scope iferrer20 --token=$TOKEN', returnStatus: true)
+                        if (env.status_lint && env.status_tests) {
+                            env.status_vercel = sh(script: 'VERCEL_ORG_ID=$ORG_ID VERCEL_PROJECT_ID=$PROJECT_ID vercel --prod --scope iferrer20 --token=$TOKEN', returnStatus: true)
+                        } else {
+                            env.status_vercel = 'No executed'
+                        }
+
                    }
                 }
             }
