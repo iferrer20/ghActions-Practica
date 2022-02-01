@@ -1,20 +1,20 @@
 # Table of contents
 - [Práctica github actions](#pr-ctica-github-actions)
-  * [Introducción teórica](#introducci-n-te-rica)
-  * [Params (0,5)](#params--0-5-)
-  * [PollSCM (0,2)](#pollscm--0-2-)
-  * [Stage linter (1,0)](#stage-linter--1-0-)
-  * [Stage Test (1,0)](#stage-test--1-0-)
-  * [Stage Update readme (1,0)](#stage-update-readme--1-0-)
-  * [Stage Push_Changes (1,0)](#stage-push-changes--1-0-)
-  * [Stage deploy_to_vercel (1,5)](#stage-deploy-to-vercel--1-5-)
-  * [Stage notification (1,0)](#stage-notification--1-0-)
+  * [Introducción teórica](#introducción-teórica)
+  * [Params (0,5)](#params-05)
+  * [PollSCM (0,2)](#pollscm-02)
+  * [Stage linter (1,0)](#stage-linter-10)
+  * [Stage Test (1,0)](#stage-test-10)
+  * [Stage Update readme (1,0)](#stage-update-readme-10)
+  * [Stage Push_Changes (1,0)](#stage-push-changes-10)
+  * [Stage deploy_to_vercel (1,5)](#stage-deploy-to-vercel-15)
+  * [Stage notification (1,0)](#stage-notification-10)
 
 # Práctica github actions
 
 [![Cypress.io](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)](https://www.cypress.io/)
 
-## Introducción teórica
+## Introducción teórica 
 
 Jenkins es una herramienta de automatización de código abierto escrita en Java con complementos creados para fines de integración continua. Jenkins se utiliza para crear y probar sus proyectos de software continuamente, lo que facilita a los desarrolladores la integración de cambios en el proyecto y facilita a los usuarios obtener una nueva compilación. También le permite entregar su software continuamente al integrarse con una gran cantidad de tecnologías de prueba e implementación.  
 
