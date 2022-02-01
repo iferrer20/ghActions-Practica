@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Linter') {
             steps {
-                scripts {
+                script {
                     env.status_lint = sh(script: "npm run lint", returnStatus: true)
                 }
             }
