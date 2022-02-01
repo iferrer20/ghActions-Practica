@@ -8,7 +8,7 @@
 
 # Práctica github actions
 
-[![Cypress.io](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)](https://www.cypress.io/)
+[![Cypress.io](https://img.shields.io/badge/test-failure-red.svg)](https://www.cypress.io/)
 
 ## Introducción teórica
 GitHub Actions es una herramienta que permite reducir la cadena de acciones necesarias para la ejecución de código, mediante la creación de un workflow responsable del Pipeline. Siendo configurable para que GitHub reaccione ante determinados eventos de forma automática según nuestras preferencias.
