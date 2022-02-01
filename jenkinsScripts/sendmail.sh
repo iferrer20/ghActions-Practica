@@ -16,11 +16,11 @@ https://api.mailjet.com/v3.1/send \
       },
       \"To\": [
         {
-          \"Email\": \"${TO_EMAIL}\",
-          \"Name\": \"Ejecución por ${EXECUTOR}\"
+          \"Email\": \"${correo}\",
+          \"Name\": \"Ejecución por ${ejecutor}\"
         }
       ],
-      \"Subject\": \"${SUBJECT}\",
+      \"Subject\": \"${motivo}\",
       \"TextPart\": \"Jenkins\",
       \"HTMLPart\": \"<p>Se ha realizado un push en la rama main que ha provocado la ejecución del workflow nombre_repositorio_workflow con los siguientes resultados:<br>Linter stage: ${status_lint}<br>Test stage: ${status_tests}<br>Update readme: ${status_update}<br>Deploy to vercel: ${status_vercel}</p>\",
       \"CustomID\": \"AppGettingStartedTest\"
