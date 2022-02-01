@@ -9,6 +9,11 @@ pipeline {
         text(name: 'correo', description: 'Correo notificación')
     }
     stages {
+        stage('Install') {
+            steps {
+                sh 'npm install'
+            }
+        }
         stage('Linter') {
             steps {
                 script {
@@ -18,6 +23,7 @@ pipeline {
         }
         stage('Test') {
             steps {
+                sh 'npm run dev'
                 script {
                     env.status_tests = sh(script: "npm run cypress", returnStatus: true)
                 }
