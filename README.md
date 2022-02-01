@@ -154,7 +154,7 @@ import re
 content = open("README.md").read()
 f = open("README.md", "w")
 f.write(
-    re.sub('tested%20with-Cypress-04C38E|tested%20with-Cypress-04C38E', 'tested%20with-Cypress-04C38E' if sys.argv[1] == "success" else 'tested%20with-Cypress-04C38E', content)
+    re.sub('|', '' if sys.argv[1] == "success" else '', content)
 )
 f.close()
 ```

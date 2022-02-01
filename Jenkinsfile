@@ -32,7 +32,7 @@ pipeline {
         stage('Update_Readme') {
             steps {
                 script {
-                    env.status_update = sh(script: "jenkinsScripts/readme.sh ${env.status_tests}", returnStatus: true)
+                    env.status_update = sh(script: "jenkinsScripts/readme.sh", returnStatus: true)
                 }
             }
         }
