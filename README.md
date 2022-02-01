@@ -190,7 +190,7 @@ stage('Notificacion') {
 }
 ```
 
-El fichero `sendmail.sh` obtendra las variables y enviará el correo con las variables `${status_lint}` `${status_tests}` `${status_update}` `${status_vercel}`
+El fichero `sendmail.sh` obtendrá las variables y enviará el correo con las variables `${status_lint}` `${status_tests}` `${status_update}` `${status_vercel}`
 
 ```bash
 #!/bin/bash
@@ -222,5 +222,5 @@ https://api.mailjet.com/v3.1/send \
 }
 ```
 
-
+![email](https://raw.githubusercontent.com/iferrer20/ghActions-Practica/jenkins/readme_img/email.png)
 
