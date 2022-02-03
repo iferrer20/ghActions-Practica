@@ -46,6 +46,17 @@ triggers {
 }
 ```
 
+## Stage install
+
+El primer stage se encargará de instalar todos los paquetes del proyecto con `npm install`
+```groovy
+stage('Install') {
+    steps {
+        sh 'npm install'
+    }
+}
+```
+
 ## Stage linter 
 
 Este es el stage linter que se encarga de iniciar el lint con npm y retornar su estado guardandolo en la variable status_lint (en el env)
