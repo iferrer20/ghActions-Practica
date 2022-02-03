@@ -1,14 +1,14 @@
 # Table of contents
 - [Práctica github actions](#pr-ctica-github-actions)
   * [Introducción teórica](#introducción-teórica)
-  * [Params (0,5)](#params-05)
-  * [PollSCM (0,2)](#pollscm-02)
-  * [Stage linter (1,0)](#stage-linter-10)
-  * [Stage Test (1,0)](#stage-test-10)
-  * [Stage Update readme (1,0)](#stage-update-readme-10)
-  * [Stage Push_Changes (1,0)](#stage-push-changes-10)
-  * [Stage deploy_to_vercel (1,5)](#stage-deploy-to-vercel-15)
-  * [Stage notification (1,0)](#stage-notification-10)
+  * [Params (0,5)](#params)
+  * [PollSCM (0,2)](#pollscm)
+  * [Stage linter (1,0)](#stage-linter)
+  * [Stage Test (1,0)](#stage-test)
+  * [Stage Update readme (1,0)](#stage-update-readme)
+  * [Stage Push_Changes (1,0)](#stage-push-changes)
+  * [Stage deploy_to_vercel (1,5)](#stage-deploy-to-vercel)
+  * [Stage notification (1,0)](#stage-notification)
 
 # Práctica github actions
 
@@ -25,7 +25,7 @@ Jenkins logra la integración continua con la ayuda de complementos. Los complem
 
 ![jenkins](https://ricardogeek.com/wp-content/uploads/2018/06/jenkins-ci_512.png)
 
-## Params (0,5)
+## Params 
 
 En el Jenkinsfile dentro de la pipeline declaro 3 parametros 
 
@@ -37,7 +37,7 @@ parameters {
 }
 ```
 
-## PollSCM (0,2)
+## PollSCM
 
 Dentro de la pipeline uso pollSCM para que cada 3 horas compruebe si hay un cambio
 ```groovy
@@ -46,7 +46,7 @@ triggers {
 }
 ```
 
-## Stage linter (1,0)
+## Stage linter 
 
 Este es el stage linter que se encarga de iniciar el lint con npm y retornar su estado guardandolo en la variable status_lint (en el env)
 
@@ -60,7 +60,7 @@ stage('Linter') {
 }
 ```
 
-##  Stage Test (1,0)
+##  Stage Test 
 
 Este es el stage test, iniciará el servidor en modo dev en segundo plano, y luego ejecuta los tests de cypress. El resultado del comando npm se guardará en status_tests gracias a returnStatus: true
 
@@ -77,7 +77,7 @@ stage('Test') {
 ```
 
 
-## Stage Update readme (1,0)
+## Stage Update readme 
 
 El stage update en el archivo Jenkinsfile ejecutará el script `jenkinsScripts/readme.sh` 
 Como he definido la variable status_tests dentro de env no hará falta pasar parametros al script
@@ -107,7 +107,7 @@ fi
 sed -i -E "s/(test-failure-red|tested%20with-Cypress-04C38E)/${x}/g" ./README.md
 ```
 
-## Stage Push_Changes (1,0)
+## Stage Push_Changes 
 
 El push changes se encargará de subir los cambios del readme al repositorio, withCredentials nos permite usar las credenciales de jenkins, especifico el id de las credenciales de git para obtenerlas en la variable GH_TOK y ejecuto `jenkinsScripts/push.sh` pasandole las credenciales
 
@@ -136,7 +136,7 @@ git commit -m "jenkins_autocomit" --allow-empty
 git push origin HEAD:jenkins
 ```
 
-## Stage deploy_to_vercel (1,5)
+## Stage deploy_to_vercel
 
 El stage deploy_to_vercel se encargará de desplegar el proyecto en vercel si la salida de los tests de cypress y del lint son correctos, si no no se ejecutará vercel y el status_vercel será 'No executed'
 
@@ -171,7 +171,7 @@ Como ultimo paso necesitaremos establecer esos tokens en el global credentials d
 ![vercel tokens](https://raw.githubusercontent.com/iferrer20/ghActions-Practica/jenkins/readme_img/credentials.png)
 
 
-## Stage notification (1,0)
+## Stage notification
 
 En este stage utilizo 2 creedentials de tipo string, una es la api key de mailjet y la otra es el secret key de la cuenta de mailjet, luego dentro de withCredentials ejecuto el script `jenkinsScript/sendmail.sh` pasándole como ENV `MAILJET_API_KEY` y `MAILJET_SECRET_KEY` no necesito pasar nada mas ya que los params (correo, motivo, ejecutor) ya estan asignados en el ENV por lo que los podemos obtener sin problemas dentro del script.
 
@@ -224,3 +224,4 @@ https://api.mailjet.com/v3.1/send \
 
 ![email](https://raw.githubusercontent.com/iferrer20/ghActions-Practica/jenkins/readme_img/email.png)
 
+![stages](https://raw.githubusercontent.com/iferrer20/ghActions-Practica/jenkins/readme_img/stages.png)
